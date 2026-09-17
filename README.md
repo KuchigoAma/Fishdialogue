@@ -22,7 +22,8 @@ Fish-Dialogue.json 与提供的文件逐字节一致。插件只改变启用状�
 前端需要独立服务端组件，扩展安装器不会安装服务端。
 
 1. 在sillytavern中安装此扩展程序。
-4. 在酒馆 config.yaml 启用如下配置并重启：
+1. 启动Sillytavern\public\scripts\extensions\third-party\Fishdialogue\install-server.cmd
+3. 在酒馆 config.yaml 启用如下配置并重启：
 
 ```yaml
 enableServerPlugins: true
