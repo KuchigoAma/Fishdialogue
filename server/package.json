@@ -1,0 +1,7 @@
+{
+  "name": "fish-dialogue-server",
+  "version": "1.4.3",
+  "private": true,
+  "type": "module",
+  "main": "fish-dialogue.mjs"
+}

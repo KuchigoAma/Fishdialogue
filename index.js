@@ -20,7 +20,7 @@ let worldModule;
 let inline, libraryEntries = [];
 const root = document.createElement('section'); root.id = 'fish-dialogue';
 root.innerHTML = `
-<div class="inline-drawer"><div class="inline-drawer-toggle inline-drawer-header" role="button" tabindex="0"><b>Fish 对话音声</b><div class="inline-drawer-icon fa-solid fa-circle-chevron-down down"></div></div><div class="inline-drawer-content"><small>版本 1.4.2</small>
+<div class="inline-drawer"><div class="inline-drawer-toggle inline-drawer-header" role="button" tabindex="0"><b>Fish 对话音声</b><div class="inline-drawer-icon fa-solid fa-circle-chevron-down down"></div></div><div class="inline-drawer-content"><small>版本 1.4.3</small>
 <div class="fa-status" id="fa-status">就绪</div>
 <label class="checkbox_label"><input id="fa-auto" type="checkbox"> 新回复自动配音</label><small>按顺序生成对白并保存到本地，不自动播放。</small>
 <div class="fa-row"><button id="fa-latest">聊天序号音频生成</button></div>
@@ -100,7 +100,7 @@ async function api(action, input = {}, signal) {
     });
     if (!r.ok) {
         let data; try { data = await r.json(); } catch { /* HTML 404 on missing bridge */ }
-        throw new Error(data?.error || `酒馆桥接 HTTP ${r.status}；确认服务端插件已安装并重启`);
+        throw new Error(data?.error || `酒馆桥接 HTTP ${r.status}；如为 404，请在扩展文件夹双击 install-server.cmd 安装服务端，然后完全重启酒馆`);
     }
     if (action === 'tts' || action === 'audio') {
         const blob = await r.blob();
@@ -277,7 +277,7 @@ click('latest',()=>generateMessage(source().message));
 $('audio').addEventListener('play',()=>{queue.paused=false;});
 click('health', async () => {
     const r = await fetch('/api/plugins/fish-dialogue/health', { headers: ctx().getRequestHeaders() });
-    if (!r.ok) throw new Error('未找到服务端桥接，请复制插件、启用 enableServerPlugins 并重启酒馆');
+    if (!r.ok) throw new Error('未找到服务端桥接。GitHub 只安装前端；请在 Fishdialogue 扩展文件夹双击 install-server.cmd，完成后完全重启酒馆。enableServerPlugins 必须为 true。');
     const h = await r.json();
     log(h.configured ? 'INFO' : 'ERROR', h.configured ? `桥接 ${h.version}，已检测酒馆全局代理 ${h.agent}。实际连通性请试听验证。` : '未检测到酒馆全局代理，请检查 requestProxy');
 });
@@ -397,4 +397,4 @@ for (const event of ['CHAT_CHANGED', 'MESSAGE_SWIPED', 'MESSAGE_DELETED', 'MESSA
 for (const event of ['MORE_MESSAGES_LOADED', 'CHAT_LOADED', 'APP_READY']) if (c.eventTypes[event]) c.eventSource.on(c.eventTypes[event], inline.schedule);
 $('audio').addEventListener('pause', () => inline.schedule());
 window.addEventListener('pagehide', () => { stopAll(); clearInterval(progressTimer); inline.disconnect(); apiKey = ''; });
-log('INFO', '1.4.2 已加载；请点“升级世界书”和“添加正则”，启用 Talk-Emo 协议。');
+log('INFO', '1.4.3 已加载；请点“升级世界书”和“添加正则”，启用 Talk-Emo 协议。');
