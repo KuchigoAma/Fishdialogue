@@ -1,5 +1,5 @@
 export const DEFAULTS = Object.freeze({ baseUrl: 'https://api.fish.audio', model: 's2.1-pro-free', language: 'zh', book: 'Fish-Dialogue', defaultVoice: '', voices: {}, auto: false, fallback: false, blockEnabled: false, blockedNames: '' });
-export const ENGINES = ['s2.1-pro-free', 's2.1-pro', 's2-pro', 's1', 'drama-3-preview'];
+export const ENGINES = ['s2.1-pro-free', 's2.1-pro', 's2-pro', 's1', 'drama-3', 'drama-3-preview'];
 
 export function stripExcluded(text) {
     const mask = value => value.replace(/[^\r\n]/g, ' ');

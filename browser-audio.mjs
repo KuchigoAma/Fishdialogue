@@ -1,3 +1,5 @@
+import { ENGINES } from './core.mjs';
+
 export function ttsRequest(input, apiKey) {
     const base=new URL(input.baseUrl || 'https://api.fish.audio');
     if(base.protocol!=='https:' || base.username || base.password || base.search || base.hash) throw Error('Base URL 必须为不含账号、查询参数的 HTTPS 地址');
@@ -7,7 +9,7 @@ export function ttsRequest(input, apiKey) {
     if(!input.text?.trim() || Array.from(input.text).length>2000) throw Error('语音文本须为 1–2000 字符');
     const model=input.model?.trim() || 's2.1-pro-free';
     if(/[\r\n]/.test(model)) throw Error('模型名称无效');
-    if(base.hostname==='api.fish.audio' && !['s2.1-pro-free','s2.1-pro','s2-pro','s1','drama-3-preview'].includes(model)) throw Error('未知官方模型，请确认模型名称');
+    if(base.hostname==='api.fish.audio' && !ENGINES.includes(model)) throw Error('未知官方模型，请确认模型名称');
     return {url:'/proxy/'+new URL('v1/tts',base).href,baseUrl:base.href,model,
         options:{method:'POST',headers:{Authorization:'Bearer '+apiKey.trim(),model,'Content-Type':'application/json'},body:JSON.stringify({text:input.text,reference_id:input.voice.trim(),format:'mp3',latency:'normal'})}};
 }
